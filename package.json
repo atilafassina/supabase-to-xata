@@ -1,0 +1,29 @@
+{
+  "name": "supabase-xata",
+  "version": "0.0.0",
+  "description": "migrate your data from Supabase to Xata",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"gotta add tests!\"",
+    "migrate": "tsm lib/index.ts"
+  },
+  "author": "Atila Fassina",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^1.35.2",
+    "@xata.io/client": "^0.5.0",
+    "dotenv": "^16.0.0",
+    "node-fetch": "^3.2.3",
+    "papaparse": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.29",
+    "prettier": "^2.6.2",
+    "tsm": "^2.2.1",
+    "typescript": "^4.6.4"
+  }
+}
