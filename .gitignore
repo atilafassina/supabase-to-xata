@@ -1,2 +1,5 @@
 .env
+csv
 node_modules
+xata.json
+example.json
