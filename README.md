@@ -2,8 +2,6 @@
 
 Port a Supabase schema to Xata
 
-> 🚨 WARNING: not ready to be used
-
 ## Data-type maps 🗺
 
 | Supabase       | Xata   |
@@ -11,6 +9,7 @@ Port a Supabase schema to Xata
 | text           | string |
 | date           | text   |
 | boolean        | bool   |
+| bigint         | int    |
 | `foreignKey`\* | link   |
 
 \* `foreignKey` is not a data-type in Supabase, it's a linked relationship between tables. But in Xata it is described as a data-type within the schema, so we translate as such.
@@ -62,6 +61,13 @@ WHERE tableConstraints.constraint_type = 'FOREIGN KEY' AND tableConstraints.tabl
 
 ```sh
 npx supabase-to-xata \
-	--input-file=./supabase-schema.csv \
-	--foreign-keys-file=./supabase-foreign-keys.csv
+	--data-types ./csv/data-types.csv \
+	--foreign-keys ./csv/foreign-keys.csv
 ```
+
+## CLI 🔧
+
+| short | long             | description                              |
+| ----- | ---------------- | ---------------------------------------- |
+| `-t`  | `--data-types`   | path to the **data-types** `.csv` file   |
+| `-k`  | `--foreign-keys` | path to the **foreign keys** `.csv` file |
