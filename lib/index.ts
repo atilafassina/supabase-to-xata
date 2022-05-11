@@ -34,9 +34,7 @@ const xata = new XataApiClient({
   fetch,
 });
 
-const sbSchemaXataTypes = dataTypes
-  ? formatDataTypes(dataTypes).then((r) => r)
-  : {};
+const sbSchemaXataTypes = dataTypes ? await formatDataTypes(dataTypes) : {};
 const foreignKeysSchema = foreignKeys ? await fkToJunction(foreignKeys) : {};
 
 const sb = {
@@ -51,6 +49,7 @@ await createTables(
 );
 
 await pushTablesToXata(sb, xata);
+
 await pushJunctionsToXata(
   foreignKeysSchema,
   await getJunctionRecords(foreignKeys, sb.data),

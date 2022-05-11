@@ -29,10 +29,15 @@ export const pushTablesToXata = async (
     const tableSchema = [] as Column[];
 
     for (const [column, type] of Object.entries<string>(sbSchema[tableName])) {
-      tableSchema.push({
-        name: column,
-        type: type as Column['type'],
-      });
+      /**
+       * can't add `id` to schema
+       */
+      if (column !== 'id') {
+        tableSchema.push({
+          name: column,
+          type: type as Column['type'],
+        });
+      }
     }
 
     await xata.tables.setTableSchema(
