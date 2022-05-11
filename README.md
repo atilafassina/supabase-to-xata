@@ -48,7 +48,7 @@ WHERE tableConstraints.constraint_type = 'FOREIGN KEY' AND tableConstraints.tabl
 ## Run it 🦋
 
 ```sh
-npx supabase-to-xata \
+npm run migrate \
 	--data-types ./csv/data-types.csv \
 	--foreign-keys ./csv/foreign-keys.csv
 ```
