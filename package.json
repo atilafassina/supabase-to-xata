@@ -10,7 +10,7 @@
   "scripts": {
     "ts:check": "tsc",
     "test": "echo \"gotta add tests!\"",
-    "migrate": "node --loader tsm lib/index.ts"
+    "migrate": "NODE_NO_WARNINGS=1 tsm lib/index.ts"
   },
   "author": {
     "name": "@AtilaFassina",
