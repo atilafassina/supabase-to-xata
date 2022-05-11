@@ -1,6 +1,6 @@
 import type { SupabaseSchema } from './types';
-import type { DataTypeMap, XataJunctionSchema } from './types';
-import type { Schema } from './types';
+import type { XataJunctionSchema } from './types';
+import type { XataSchema } from './types';
 import { resolve } from 'path';
 import { promises as fs } from 'fs';
 import papa from 'papaparse';
@@ -16,19 +16,22 @@ const csvToJson = async (csvPath: string): Promise<string[][]> => {
   return csv.data.splice(1);
 };
 
-export const formatDataTypes = async (csvPath: string) => {
-  const csvData = (await csvToJson(csvPath)) as DataTypeMap;
+export const formatDataTypes = async (csvPath: string): Promise<XataSchema> => {
+  const csvData = await csvToJson(csvPath);
 
-  return csvData.reduce<Schema>((json, [tableName, columnName, dataType]) => {
-    if (columnName !== 'id') {
+  return csvData.reduce<XataSchema>(
+    (json, [tableName, columnName, dataType]) => {
+      // if (columnName !== 'id') {
       json[tableName] = {
         ...json[tableName],
-        [columnName]: mapSchemaTypes[dataType],
+        [columnName]: mapSchemaTypes[dataType as keyof typeof mapSchemaTypes],
       };
-    }
+      // }
 
-    return json;
-  }, {});
+      return json;
+    },
+    {}
+  );
 };
 
 export const getJunctionRecords = async (
@@ -37,14 +40,17 @@ export const getJunctionRecords = async (
 ): Promise<Record<string, string>[]> => {
   const [, tableName, fkColumn, fkTargetTable] = (await csvToJson(csvPath))[0];
 
-  return supabaseData[tableName].reduce((schema, item) => {
-    schema.push({
-      [tableName]: String(item.id),
-      [fkTargetTable]: String(item[fkColumn]),
-    });
+  return supabaseData[tableName].reduce<Record<string, string>[]>(
+    (schema, item) => {
+      schema.push({
+        [tableName]: String(item.id),
+        [fkTargetTable]: String(item[fkColumn]),
+      });
 
-    return schema;
-  }, []);
+      return schema;
+    },
+    []
+  );
 };
 
 export const fkToJunction = async (
@@ -52,7 +58,7 @@ export const fkToJunction = async (
 ): Promise<XataJunctionSchema> => {
   const csvData = await csvToJson(csvPath);
 
-  return csvData.reduce(
+  return csvData.reduce<XataJunctionSchema>(
     (
       json,
       [

@@ -2,7 +2,11 @@ import type { SupabaseSchema, XataJunctionSchema } from './types';
 import type { XataApiClient } from '@xata.io/client';
 import type { Column } from '@xata.io/client/dist/api/schemas';
 
-const { XATA_WORKSPACE_ID, XATA_DB_NAME, XATA_BRANCH } = process.env;
+const {
+  XATA_WORKSPACE_ID = '',
+  XATA_DB_NAME = '',
+  XATA_BRANCH = '',
+} = process.env;
 
 /**
  * @TODO

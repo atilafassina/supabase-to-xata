@@ -1,6 +1,5 @@
 import { mapSchemaTypes } from './supabase';
 
-export type DataTypeMap = [string, string, string][];
 export type SupabaseSchema = {
   [tableName: string]: {
     [key: string]: string;
@@ -25,9 +24,9 @@ export type ForeignKeys = {
   };
 };
 
-export type Schema = {
+export type XataSchema = {
   [tableName: string]: {
-    [columnName: string]: keyof typeof mapSchemaTypes;
+    [columnName: string]: typeof mapSchemaTypes[keyof typeof mapSchemaTypes];
   };
 };
 

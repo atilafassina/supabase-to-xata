@@ -1,7 +1,7 @@
-import type { SupabaseSchema } from './types';
+import type { XataSchema, SupabaseSchema } from './types';
 import { createClient } from '@supabase/supabase-js';
 
-const { SUPABASE_URL, SUPABASE_KEY } = process.env;
+const { SUPABASE_URL = '', SUPABASE_KEY = '' } = process.env;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -23,10 +23,10 @@ export const getSupabaseData = async (
   );
 
   return supabaseData.reduce<SupabaseSchema>((acc, curr, idx) => {
-    acc[tablesNames[idx]] = curr.data;
+    acc[tablesNames[idx]] = curr.data ?? [];
 
     return acc;
-  }, {} as SupabaseSchema);
+  }, {});
 };
 
 export const mapSchemaTypes = {
@@ -34,6 +34,6 @@ export const mapSchemaTypes = {
   date: 'text',
   boolean: 'bool',
   bigint: 'int',
-};
+} as const;
 
-export const getTablesNames = (dataTypes) => Object.keys(dataTypes);
+export const getTablesNames = (dataTypes: XataSchema) => Object.keys(dataTypes);
